@@ -41,7 +41,7 @@ function vissza() {
 
 
 // ===== ÚJ SPOT MENTÉSE =====
-function spotMentese(feltoltesPanel=false) {
+function spotMentese(feltoltesPanel = false) {
     const prefix = feltoltesPanel ? "feltolt_" : "";
 
     // Több évszak összegyűjtése
@@ -55,7 +55,7 @@ function spotMentese(feltoltesPanel=false) {
         vonalak: document.getElementById(prefix + "vonalak").value.trim(),
         helyszin: document.getElementById(prefix + "helyszin").value.trim(),
         leiras: document.getElementById(prefix + "leiras").value.trim(),
-        evszak: evszakok.join(","), // több évszakot vesszővel elválasztva mentünk
+        evszak: evszakok.join(","), // több évszak
         idopont: document.getElementById(prefix + "idopont").value,
         datum: new Date().toISOString().split("T")[0],
         torlesKerve: false
@@ -66,21 +66,30 @@ function spotMentese(feltoltesPanel=false) {
         return;
     }
 
-    db.ref("spotok").push().set(spot).then(() => {
-        alert("Spot elmentve!");
-        // mezők törlése
-        Object.keys(spot).forEach(k => {
-            const elem = document.getElementById(prefix + k);
-            if(elem) elem.value = "";
+    // Firebase mentés
+    const newSpotRef = db.ref("spotok").push(); // új kulcs
+    newSpotRef.set(spot)
+        .then(() => {
+            alert("Spot elmentve!");
+
+            // mezők törlése
+            Object.keys(spot).forEach(k => {
+                const elem = document.getElementById(prefix + k);
+                if (elem) elem.value = "";
+            });
+
+            // checkbox-ok törlése
+            evszakElems.forEach(e => e.checked = false);
+
+            // frissítjük a szűrőket és listát
+            feltoltSzurok();
+            listazas();
+        })
+        .catch(err => {
+            console.error("Hiba a mentésnél:", err);
+            alert("Hiba történt a mentés során!");
         });
-        // checkbox-ok törlése
-        evszakElems.forEach(e => e.checked = false);
-
-        feltoltSzurok();
-        listazas();
-    });
 }
-
 
 // ===== SZŰRŐK FELTÖLTÉSE =====
 function feltoltSzurok() {
