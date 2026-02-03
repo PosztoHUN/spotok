@@ -59,3 +59,16 @@ input {
 .torles-kerve {
     color: red;
 }
+
+.feltoltes-grid {
+    display: flex;
+    flex-wrap: wrap; /* Több sorba törik, ha kicsi a képernyő */
+    gap: 10px;       /* Kis távolság mezők között */
+    align-items: center;
+}
+
+.feltoltes-grid label {
+    display: flex;
+    flex-direction: column; /* cím és input egymás alatt */
+    min-width: 120px;       /* minimum szélesség a mezőknek */
+}

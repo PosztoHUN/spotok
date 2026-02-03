@@ -51,39 +51,25 @@
                 <!-- Feltöltés -->
                 <div id="uj-feltoltes" class="rejtett">
                     <button class="vissza" onclick="vissza()">← Vissza</button>
-                    <div class="card">
+                    <div class="card feltoltes-grid">
                         <h2>Új spot feltöltése</h2>
 
-                        <label>Ország</label>
-                        <input type="text" id="feltolt_orszag">
-
-                        <label>Város</label>
-                        <input type="text" id="feltolt_varos">
-
-                        <label>Eszköz</label>
-                        <input type="text" id="feltolt_eszkoz">
-
-                        <label>Vonalak (pl. 4,6,47)</label>
-                        <input type="text" id="feltolt_vonalak">
-
-                        <label>Helyszín</label>
-                        <input type="text" id="feltolt_helyszin">
-
-                        <label>Leírás</label>
-                        <textarea id="feltolt_leiras"></textarea>
-
-                        <label>Évszak</label>
-                        <select id="feltolt_evszak">
-                            <option value="">Válassz</option>
-                            <option value="Tavasz">Tavasz</option>
-                            <option value="Nyár">Nyár</option>
-                            <option value="Ősz">Ősz</option>
-                            <option value="Tél">Tél</option>
-                        </select>
-
-                        <label>Időpont</label>
-                        <input type="time" id="feltolt_idopont">
-
+                        <label>Ország <input type="text" id="feltolt_orszag"></label>
+                        <label>Város <input type="text" id="feltolt_varos"></label>
+                        <label>Eszköz <input type="text" id="feltolt_eszkoz"></label>
+                        <label>Vonalak (pl. 4,6,47) <input type="text" id="feltolt_vonalak"></label>
+                        <label>Helyszín <input type="text" id="feltolt_helyszin"></label>
+                        <label>Leírás <input type="text" id="feltolt_leiras"></label>
+                        <label>Évszak 
+                            <select id="feltolt_evszak">
+                                <option value="">Válassz</option>
+                                <option value="Tavasz">Tavasz</option>
+                                <option value="Nyár">Nyár</option>
+                                <option value="Ősz">Ősz</option>
+                                <option value="Tél">Tél</option>
+                            </select>
+                        </label>
+                        <label>Időpont <input type="time" id="feltolt_idopont"></label>
                         <button onclick="spotMentese(true)">Mentés</button>
                     </div>
                 </div>
