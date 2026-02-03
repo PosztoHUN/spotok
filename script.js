@@ -21,9 +21,9 @@ const db = firebase.database();
 
 // ===== Nézetváltás =====
 function mutat(mit) {
-    ["kezdo","bongeszes","uj-feltoltes"].forEach(id => {
+    ["kezdo", "bongeszes", "uj-feltoltes"].forEach(id => {
         const el = document.getElementById(id);
-        if(el) el.style.display = (id===mit?"block":"none");
+        if (el) el.style.display = (id === mit ? "block" : "none");
     });
 }
 
