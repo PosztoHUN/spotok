@@ -31,18 +31,39 @@
             <div class="card">
                 <h2>Keresés</h2>
                 <div class="filters">
+                    <label>Ország</label>
                     <select id="szuroOrszag">
                         <option value="">Összes ország</option>
                     </select>
+                    <label>Város</label>
                     <select id="szuroVaros">
                         <option value="">Összes város</option>
                     </select>
+                    <label>Közlekedési eszköz</label>
                     <select id="szuroEszkoz">
                         <option value="">Összes eszköz</option>
                     </select>
+                    <label>Vonal (város kiválasztása után)</label>
                     <select id="szuroVonal">
                         <option value="">Összes vonal</option>
                     </select>
+                    <label>Évszak</label>
+                    <select id="evszak">
+                        <option value="">Válassz</option>
+                        <option value="Tavasz">Tavasz</option>
+                        <option value="Nyár">Nyár</option>
+                        <option value="Ősz">Ősz</option>
+                        <option value="Tél">Tél</option>
+                    </select>
+                    <label>Időpont</label>
+                    <select id="idopont">
+                        <option value="">Válassz</option>
+                        <option value="Reggel">Reggel</option>
+                        <option value="Délután">Délután</option>
+                        <option value="Este">Este</option>
+                        <option value="Éjszaka">Éjszaka</option>
+                    </select>
+
                     <button onclick="listazas()">Szűrés</button>
                 </div>
             </div>

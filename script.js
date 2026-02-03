@@ -42,14 +42,20 @@ function vissza() {
 // ===== ÚJ SPOT MENTÉSE =====
 function spotMentese() {
     const spot = {
-        orszag: document.getElementById("orszag").value,
-        varos: document.getElementById("varos").value,
-        eszkoz: document.getElementById("eszkoz").value,
-        vonalak: document.getElementById("vonalak").value,
-        helyszin: document.getElementById("helyszin").value,
-        leiras: document.getElementById("leiras").value,
-        datum: new Date().toISOString().split("T")[0]
-    };
+    orszag: document.getElementById("orszag").value,
+    varos: document.getElementById("varos").value,
+    eszkoz: document.getElementById("eszkoz").value,
+    vonalak: document.getElementById("vonalak").value,
+    helyszin: document.getElementById("helyszin").value,
+    leiras: document.getElementById("leiras").value,
+
+    evszak: document.getElementById("evszak").value,
+    idopont: document.getElementById("idopont").value,
+
+    datum: new Date().toISOString().split("T")[0],
+    torlesKerve: false
+};
+
 
     const newSpotRef = db.ref("spotok").push();
     newSpotRef.set(spot).then(() => {
@@ -155,8 +161,10 @@ async function listazas() {
             <strong>${s.varos}</strong><br>
             <strong>Eszköz:</strong> ${s.eszkoz}<br>
             <strong>Vonal(ak):</strong> ${s.vonalak || "N/A"}<br>
+            <strong>Évszak:</strong> ${s.evszak || "—"}<br>
+            <strong>Időpont:</strong> ${s.idopont || "—"}<br>
             <strong>Helyszín:</strong> ${s.helyszin || "N/A"}<br>
-            <p>${s.leiras}</p>
+            <strong>Leírás:</strong><p>${s.leiras}</p>
 
             <button onclick="torlesKerese('${s.id}')">
                 Törlés kérése
