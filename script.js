@@ -90,6 +90,7 @@ function feltoltSzurok() {
     });
 }
 
+// ===== Segédfüggvény select feltöltéséhez érték megőrzéssel =====
 function feltoltSelect(select, adatok) {
     if (!select) return;
 
@@ -148,13 +149,26 @@ async function listazas() {
     szurt.forEach(s => {
         const div = document.createElement("div");
         div.className = "card";
+        if (s.torlesKerve) div.classList.add("torles-kerve");
+
         div.innerHTML = `
             <strong>${s.varos}</strong><br>
             <strong>Eszköz:</strong> ${s.eszkoz}<br>
             <strong>Vonal(ak):</strong> ${s.vonalak || "N/A"}<br>
             <strong>Helyszín:</strong> ${s.helyszin || "N/A"}<br>
             <p>${s.leiras}</p>
-        `;
+
+            <button onclick="torlesKerese('${s.id}')">
+                Törlés kérése
+            </button>
+
+            <button onclick="torlesElutasitasa('${s.id}')">
+                Törlés elutasítása
+            </button>
+
+            <button onclick="veglegesTorles('${s.id}')">
+                Törlés
+            </button>`;
         lista.appendChild(div);
     });
 }
@@ -205,9 +219,38 @@ function feltoltSelect(select, adatok) {
     });
 }
 
+function torlesKerese(id) {
+    db.ref("spotok/" + id).update({
+        torlesKerve: true
+    }).then(listazas);
+}
+function torlesElutasitasa(id) {
+    const jelszo = prompt("Add meg a jelszót:");
+
+    if (jelszo !== "BPO561") {
+        alert("Hibás jelszó!");
+        return;
+    }
+
+    db.ref("spotok/" + id).update({
+        torlesKerve: false
+    }).then(listazas);
+}
+function veglegesTorles(id) {
+    const jelszo = prompt("Add meg a jelszót a törléshez:");
+
+    if (jelszo !== "BPO561") {
+        alert("Hibás jelszó!");
+        return;
+    }
+
+    if (!confirm("Biztosan törlöd ezt a bejegyzést?")) return;
+
+    db.ref("spotok/" + id).remove()
+        .then(listazas);
+}
+
+
 // ===== Eseményfigyelők, hogy a vonal szűrő frissüljön =====
-document.getElementById("szuroVaros").addEventListener("change", feltoltSzurok);
-document.getElementById("szuroEszkoz").addEventListener("change", feltoltSzurok);
-
-
-
+// document.getElementById("szuroVaros").addEventListener("change", feltoltSzurok);
+// document.getElementById("szuroEszkoz").addEventListener("change", feltoltSzurok);
