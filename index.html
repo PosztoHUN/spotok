@@ -30,23 +30,27 @@
             <button class="vissza" onclick="vissza()">← Vissza</button>
             <div class="card">
                 <h2>Keresés</h2>
-                <div class="filters">
+                <div id="feltoltes">
+                    <h2>Új Spot feltöltése</h2>
+
                     <label>Ország</label>
-                    <select id="szuroOrszag">
-                        <option value="">Összes ország</option>
-                    </select>
+                    <input type="text" id="orszag">
+
                     <label>Város</label>
-                    <select id="szuroVaros">
-                        <option value="">Összes város</option>
-                    </select>
-                    <label>Közlekedési eszköz</label>
-                    <select id="szuroEszkoz">
-                        <option value="">Összes eszköz</option>
-                    </select>
-                    <label>Vonal (város kiválasztása után)</label>
-                    <select id="szuroVonal">
-                        <option value="">Összes vonal</option>
-                    </select>
+                    <input type="text" id="varos">
+
+                    <label>Eszköz</label>
+                    <input type="text" id="eszkoz">
+
+                    <label>Vonalak (pl. 4,6,47)</label>
+                    <input type="text" id="vonalak">
+
+                    <label>Helyszín</label>
+                    <input type="text" id="helyszin">
+
+                    <label>Leírás</label>
+                    <textarea id="leiras"></textarea>
+
                     <label>Évszak</label>
                     <select id="evszak">
                         <option value="">Válassz</option>
@@ -55,16 +59,11 @@
                         <option value="Ősz">Ősz</option>
                         <option value="Tél">Tél</option>
                     </select>
-                    <label>Időpont</label>
-                    <select id="idopont">
-                        <option value="">Válassz</option>
-                        <option value="Reggel">Reggel</option>
-                        <option value="Délután">Délután</option>
-                        <option value="Este">Este</option>
-                        <option value="Éjszaka">Éjszaka</option>
-                    </select>
 
-                    <button onclick="listazas()">Szűrés</button>
+                    <label>Időpont</label>
+                    <input type="time" id="idopont">
+
+                    <button onclick="spotMentese()">Mentés</button>
                 </div>
             </div>
             <div id="lista" class="spot-lista"></div>

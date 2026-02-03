@@ -42,27 +42,44 @@ function vissza() {
 // ===== ÚJ SPOT MENTÉSE =====
 function spotMentese() {
     const spot = {
-    orszag: document.getElementById("orszag").value,
-    varos: document.getElementById("varos").value,
-    eszkoz: document.getElementById("eszkoz").value,
-    vonalak: document.getElementById("vonalak").value,
-    helyszin: document.getElementById("helyszin").value,
-    leiras: document.getElementById("leiras").value,
+        orszag: document.getElementById("orszag").value.trim(),
+        varos: document.getElementById("varos").value.trim(),
+        eszkoz: document.getElementById("eszkoz").value.trim(),
+        vonalak: document.getElementById("vonalak").value.trim(),
+        helyszin: document.getElementById("helyszin").value.trim(),
+        leiras: document.getElementById("leiras").value.trim(),
+        evszak: document.getElementById("evszak").value,
+        idopont: document.getElementById("idopont").value,
+        datum: new Date().toISOString().split("T")[0],
+        torlesKerve: false
+    };
 
-    evszak: document.getElementById("evszak").value,
-    idopont: document.getElementById("idopont").value,
+    // Ellenőrzés: kötelező mezők
+    if (!spot.orszag || !spot.varos || !spot.eszkoz || !spot.evszak || !spot.idopont) {
+        alert("Kérlek töltsd ki az országot, várost, eszközt, évszakot és időpontot!");
+        return;
+    }
 
-    datum: new Date().toISOString().split("T")[0],
-    torlesKerve: false
-};
-
-
+    // Mentés Firebase-be
     const newSpotRef = db.ref("spotok").push();
-    newSpotRef.set(spot).then(() => {
-        alert("Spot elmentve!");
-        feltoltSzurok();
-    });
+    newSpotRef.set(spot)
+        .then(() => {
+            alert("Spot elmentve!");
+            // opcionálisan töröljük a mezőket
+            document.getElementById("orszag").value = "";
+            document.getElementById("varos").value = "";
+            document.getElementById("eszkoz").value = "";
+            document.getElementById("vonalak").value = "";
+            document.getElementById("helyszin").value = "";
+            document.getElementById("leiras").value = "";
+            document.getElementById("evszak").value = "";
+            document.getElementById("idopont").value = "";
+            
+            feltoltSzurok(); // szűrők frissítése
+            listazas();      // lista frissítése
+        });
 }
+
 
 // ===== SZŰRŐK FELTÖLTÉSE =====
 function feltoltSzurok() {
@@ -154,8 +171,7 @@ async function listazas() {
 
     szurt.forEach(s => {
         const div = document.createElement("div");
-        div.className = "card";
-        if (s.torlesKerve) div.classList.add("torles-kerve");
+        div.className = "card " + (s.torlesKerve ? "torles-kerve" : "");
 
         div.innerHTML = `
             <strong>${s.varos}</strong><br>
@@ -164,19 +180,12 @@ async function listazas() {
             <strong>Évszak:</strong> ${s.evszak || "—"}<br>
             <strong>Időpont:</strong> ${s.idopont || "—"}<br>
             <strong>Helyszín:</strong> ${s.helyszin || "N/A"}<br>
-            <strong>Leírás:</strong><p>${s.leiras}</p>
+            <p>${s.leiras}</p>
 
-            <button onclick="torlesKerese('${s.id}')">
-                Törlés kérése
-            </button>
-
-            <button onclick="torlesElutasitasa('${s.id}')">
-                Törlés elutasítása
-            </button>
-
-            <button onclick="veglegesTorles('${s.id}')">
-                Törlés
-            </button>`;
+            <button onclick="torlesKerese('${s.id}')">Törlés kérése</button>
+            <button onclick="torlesElutasitasa('${s.id}')">Törlés elutasítása</button>
+            <button onclick="veglegesTorles('${s.id}')">Törlés</button>
+        `;
         lista.appendChild(div);
     });
 }
