@@ -61,13 +61,12 @@
                         <label>Helyszín <input type="text" id="feltolt_helyszin"></label>
                         <label>Leírás <input type="text" id="feltolt_leiras"></label>
                         <label>Évszak 
-                            <select id="feltolt_evszak">
-                                <option value="">Válassz</option>
-                                <option value="Tavasz">Tavasz</option>
-                                <option value="Nyár">Nyár</option>
-                                <option value="Ősz">Ősz</option>
-                                <option value="Tél">Tél</option>
-                            </select>
+                            <div class="evszakok">
+                                <label><input type="checkbox" value="Tavasz" class="feltolt_evszak"> Tavasz</label>
+                                <label><input type="checkbox" value="Nyár" class="feltolt_evszak"> Nyár</label>
+                                <label><input type="checkbox" value="Ősz" class="feltolt_evszak"> Ősz</label>
+                                <label><input type="checkbox" value="Tél" class="feltolt_evszak"> Tél</label>
+                            </div>
                         </label>
                         <label>Időpont <input type="time" id="feltolt_idopont"></label>
                         <button onclick="spotMentese(true)">Mentés</button>

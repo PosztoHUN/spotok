@@ -43,6 +43,11 @@ function vissza() {
 // ===== ÚJ SPOT MENTÉSE =====
 function spotMentese(feltoltesPanel=false) {
     const prefix = feltoltesPanel ? "feltolt_" : "";
+
+    // Több évszak összegyűjtése
+    const evszakElems = document.querySelectorAll("." + prefix + "evszak:checked");
+    const evszakok = Array.from(evszakElems).map(e => e.value);
+
     const spot = {
         orszag: document.getElementById(prefix + "orszag").value.trim(),
         varos: document.getElementById(prefix + "varos").value.trim(),
@@ -50,14 +55,14 @@ function spotMentese(feltoltesPanel=false) {
         vonalak: document.getElementById(prefix + "vonalak").value.trim(),
         helyszin: document.getElementById(prefix + "helyszin").value.trim(),
         leiras: document.getElementById(prefix + "leiras").value.trim(),
-        evszak: document.getElementById(prefix + "evszak").value,
+        evszak: evszakok.join(","), // több évszakot vesszővel elválasztva mentünk
         idopont: document.getElementById(prefix + "idopont").value,
         datum: new Date().toISOString().split("T")[0],
         torlesKerve: false
     };
 
-    if (!spot.orszag || !spot.varos || !spot.eszkoz || !spot.evszak || !spot.idopont) {
-        alert("Kérlek töltsd ki az országot, várost, eszközt, évszakot és időpontot!");
+    if (!spot.orszag || !spot.varos || !spot.eszkoz || evszakok.length === 0 || !spot.idopont) {
+        alert("Kérlek töltsd ki az országot, várost, eszközt, legalább egy évszakot és időpontot!");
         return;
     }
 
@@ -68,10 +73,14 @@ function spotMentese(feltoltesPanel=false) {
             const elem = document.getElementById(prefix + k);
             if(elem) elem.value = "";
         });
+        // checkbox-ok törlése
+        evszakElems.forEach(e => e.checked = false);
+
         feltoltSzurok();
         listazas();
     });
 }
+
 
 // ===== SZŰRŐK FELTÖLTÉSE =====
 function feltoltSzurok() {
@@ -170,9 +179,9 @@ async function listazas() {
             <strong>${s.varos}</strong><br>
             <strong>Eszköz:</strong> ${s.eszkoz}<br>
             <strong>Vonal(ak):</strong> ${s.vonalak || "N/A"}<br>
-            <strong>Évszak:</strong> ${s.evszak || "—"}<br>
-            <strong>Időpont:</strong> ${s.idopont || "—"}<br>
             <strong>Helyszín:</strong> ${s.helyszin || "N/A"}<br>
+            <strong>Évszak:</strong> ${s.evszak || "—"}<br>
+            <strong>A fent írt évszakban ekkor biztos jó:</strong> ${s.idopont || "—"}<br>
             <strong>Leírás:</strong><p>${s.leiras}</p>
 
             <button onclick="torlesKerese('${s.id}')">
