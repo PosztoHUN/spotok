@@ -25,6 +25,7 @@ function vissza(){ mutat("kezdo"); }
 function spotMentese() {
     const getVal = id => document.getElementById(id)?.value.trim() || "";
     const spot = {
+<<<<<<< HEAD
         orszag: getVal("orszag"),
         varos: getVal("varos"),
         eszkoz: getVal("eszkoz"),
@@ -38,6 +39,75 @@ function spotMentese() {
     };
     if(!spot.orszag || !spot.varos || !spot.eszkoz || !spot.evszak || !spot.idopont){
         alert("Kérlek töltsd ki az országot, várost, eszközt, évszakot és időpontot!"); return;
+=======
+        orszag: document.getElementById("orszag").value,
+        varos: document.getElementById("varos").value,
+        eszkoz: document.getElementById("eszkoz").value,
+        vonalak: document.getElementById("vonalak").value,
+        helyszin: document.getElementById("helyszin").value,
+        leiras: document.getElementById("leiras").value,
+        datum: new Date().toISOString().split("T")[0]
+    };
+
+    const newSpotRef = db.ref("spotok").push();
+    newSpotRef.set(spot).then(() => {
+        alert("Spot elmentve!");
+        feltoltSzurok();
+    });
+}
+
+// ===== SZŰRŐK FELTÖLTÉSE =====
+function feltoltSzurok() {
+    db.ref("spotok").once("value").then(snapshot => {
+        const spotok = snapshot.val() ? Object.values(snapshot.val()) : [];
+
+        feltoltSelect(document.getElementById("szuroOrszag"), spotok.map(s => s.orszag));
+        feltoltSelect(document.getElementById("szuroVaros"), spotok.map(s => s.varos));
+        feltoltSelect(document.getElementById("szuroEszkoz"), spotok.map(s => s.eszkoz));
+
+        const szuroVonal = document.getElementById("szuroVonal");
+
+        // Mindig töltsük fel a vonalakat
+        const vonalakOsszes = [];
+        spotok.forEach(s => {
+            if (s.vonalak) s.vonalak.split(",").forEach(v => vonalakOsszes.push(v.trim()));
+        });
+
+        // Ha van város vagy eszköz kiválasztva, szűrjük a vonalakat
+        const kivValos = document.getElementById("szuroVaros").value;
+        const kivEszkoz = document.getElementById("szuroEszkoz").value;
+        let szurtVonalak = vonalakOsszes;
+
+        if (kivValos || kivEszkoz) {
+            szurtVonalak = spotok
+                .filter(s => (!kivValos || s.varos === kivValos) && (!kivEszkoz || s.eszkoz === kivEszkoz))
+                .flatMap(s => s.vonalak ? s.vonalak.split(",").map(v => v.trim()) : []);
+        }
+
+        feltoltSelect(szuroVonal, szurtVonalak);
+    });
+}
+
+// ===== Segédfüggvény select feltöltéséhez érték megőrzéssel =====
+function feltoltSelect(select, adatok) {
+    if (!select) return;
+
+    // Jegyezzük meg a kiválasztott értéket
+    const aktVal = select.value;
+
+    const egyedi = [...new Set(adatok.filter(a => a && a.trim() !== ""))];
+    select.innerHTML = `<option value="">Összes</option>`;
+    egyedi.forEach(a => {
+        const opt = document.createElement("option");
+        opt.value = a;
+        opt.textContent = a;
+        select.appendChild(opt);
+    });
+
+    // Visszaállítjuk az előzőleg kiválasztott értéket, ha még benne van
+    if (aktVal && egyedi.includes(aktVal)) {
+        select.value = aktVal;
+>>>>>>> parent of adb5414 (Idopont helyszin teszt)
     }
     db.ref("spotok").push().set(spot).then(()=>{
         alert("Spot elmentve!");
@@ -95,6 +165,7 @@ async function listazas() {
         div.innerHTML=`
             <strong>${s.varos}</strong><br>
             <strong>Eszköz:</strong> ${s.eszkoz}<br>
+<<<<<<< HEAD
             <strong>Vonal(ak):</strong> ${s.vonalak||"N/A"}<br>
             <strong>Évszak:</strong> ${s.evszak||"—"}<br>
             <strong>Időpont:</strong> ${s.idopont||"—"}<br>
@@ -104,6 +175,23 @@ async function listazas() {
             <button onclick="torlesElutasitasa('${s.id}')">Törlés elutasítása</button>
             <button onclick="veglegesTorles('${s.id}')">Törlés</button>
         `;
+=======
+            <strong>Vonal(ak):</strong> ${s.vonalak || "N/A"}<br>
+            <strong>Helyszín:</strong> ${s.helyszin || "N/A"}<br>
+            <p>${s.leiras}</p>
+
+            <button onclick="torlesKerese('${s.id}')">
+                Törlés kérése
+            </button>
+
+            <button onclick="torlesElutasitasa('${s.id}')">
+                Törlés elutasítása
+            </button>
+
+            <button onclick="veglegesTorles('${s.id}')">
+                Törlés
+            </button>`;
+>>>>>>> parent of adb5414 (Idopont helyszin teszt)
         lista.appendChild(div);
     });
 }
