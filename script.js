@@ -32,10 +32,13 @@ function vissza() {
 }
 
 function vissza() {
-    document.getElementById("bongeszes").style.display = "none";
-    document.getElementById("feltoltes").style.display = "none";
-    document.getElementById("kezdo").style.display = "grid";
+    const panelok = ["kezdo", "bongeszes", "uj-feltoltes"];
+    panelok.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.style.display = (id==="kezdo" ? "grid" : "none");
+    });
 }
+
 
 // ===== ÚJ SPOT MENTÉSE =====
 function spotMentese() {
