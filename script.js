@@ -113,10 +113,11 @@ function feltoltSelect(select, adatok) {
 
 
 // ===== LISTÁZÁS / SZŰRÉS =====
-// ===== Lista / szűrés =====
 async function listazas() {
-    const snapshot = await get(ref(db, "spotok"));
-    const spotok = snapshot.exists() ? Object.entries(snapshot.val()).map(([id,s]) => ({ id, ...s })) : [];
+    const snapshot = await db.ref("spotok").once("value");
+    const spotok = snapshot.val()
+        ? Object.entries(snapshot.val()).map(([id, s]) => ({ id, ...s }))
+        : [];
 
     const o = document.getElementById("szuroOrszag").value;
     const v = document.getElementById("szuroVaros").value;
@@ -131,7 +132,9 @@ async function listazas() {
         if (v && s.varos !== v) return false;
         if (e && s.eszkoz !== e) return false;
         if (vonalSzuro) {
-            const tomb = s.vonalak ? s.vonalak.split(",").map(x => x.trim()) : [];
+            const tomb = s.vonalak
+                ? s.vonalak.split(",").map(x => x.trim())
+                : [];
             if (!tomb.includes(vonalSzuro)) return false;
         }
         return true;
@@ -151,7 +154,6 @@ async function listazas() {
             <strong>Vonal(ak):</strong> ${s.vonalak || "N/A"}<br>
             <strong>Helyszín:</strong> ${s.helyszin || "N/A"}<br>
             <p>${s.leiras}</p>
-            <button class="torles-btn" onclick="torlesKerese('${s.id}', this)">Törlés kérése</button>
         `;
         lista.appendChild(div);
     });
@@ -206,4 +208,5 @@ function feltoltSelect(select, adatok) {
 // ===== Eseményfigyelők, hogy a vonal szűrő frissüljön =====
 document.getElementById("szuroVaros").addEventListener("change", feltoltSzurok);
 document.getElementById("szuroEszkoz").addEventListener("change", feltoltSzurok);
+
 
