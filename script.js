@@ -41,46 +41,37 @@ function vissza() {
 
 
 // ===== ÚJ SPOT MENTÉSE =====
-function spotMentese() {
+function spotMentese(feltoltesPanel=false) {
+    const prefix = feltoltesPanel ? "feltolt_" : "";
     const spot = {
-        orszag: document.getElementById("orszag").value.trim(),
-        varos: document.getElementById("varos").value.trim(),
-        eszkoz: document.getElementById("eszkoz").value.trim(),
-        vonalak: document.getElementById("vonalak").value.trim(),
-        helyszin: document.getElementById("helyszin").value.trim(),
-        leiras: document.getElementById("leiras").value.trim(),
-        evszak: document.getElementById("evszak").value,
-        idopont: document.getElementById("idopont").value,
+        orszag: document.getElementById(prefix + "orszag").value.trim(),
+        varos: document.getElementById(prefix + "varos").value.trim(),
+        eszkoz: document.getElementById(prefix + "eszkoz").value.trim(),
+        vonalak: document.getElementById(prefix + "vonalak").value.trim(),
+        helyszin: document.getElementById(prefix + "helyszin").value.trim(),
+        leiras: document.getElementById(prefix + "leiras").value.trim(),
+        evszak: document.getElementById(prefix + "evszak").value,
+        idopont: document.getElementById(prefix + "idopont").value,
         datum: new Date().toISOString().split("T")[0],
         torlesKerve: false
     };
 
-    // Ellenőrzés: kötelező mezők
     if (!spot.orszag || !spot.varos || !spot.eszkoz || !spot.evszak || !spot.idopont) {
         alert("Kérlek töltsd ki az országot, várost, eszközt, évszakot és időpontot!");
         return;
     }
 
-    // Mentés Firebase-be
-    const newSpotRef = db.ref("spotok").push();
-    newSpotRef.set(spot)
-        .then(() => {
-            alert("Spot elmentve!");
-            // opcionálisan töröljük a mezőket
-            document.getElementById("orszag").value = "";
-            document.getElementById("varos").value = "";
-            document.getElementById("eszkoz").value = "";
-            document.getElementById("vonalak").value = "";
-            document.getElementById("helyszin").value = "";
-            document.getElementById("leiras").value = "";
-            document.getElementById("evszak").value = "";
-            document.getElementById("idopont").value = "";
-            
-            feltoltSzurok(); // szűrők frissítése
-            listazas();      // lista frissítése
+    db.ref("spotok").push().set(spot).then(() => {
+        alert("Spot elmentve!");
+        // mezők törlése
+        Object.keys(spot).forEach(k => {
+            const elem = document.getElementById(prefix + k);
+            if(elem) elem.value = "";
         });
+        feltoltSzurok();
+        listazas();
+    });
 }
-
 
 // ===== SZŰRŐK FELTÖLTÉSE =====
 function feltoltSzurok() {
