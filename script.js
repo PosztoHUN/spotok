@@ -90,7 +90,6 @@ function feltoltSzurok() {
     });
 }
 
-
 function feltoltSelect(select, adatok) {
     if (!select) return;
 
@@ -207,3 +206,4 @@ function feltoltSelect(select, adatok) {
 // ===== Eseményfigyelők, hogy a vonal szűrő frissüljön =====
 document.getElementById("szuroVaros").addEventListener("change", feltoltSzurok);
 document.getElementById("szuroEszkoz").addEventListener("change", feltoltSzurok);
+
