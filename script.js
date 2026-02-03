@@ -21,17 +21,14 @@ const db = firebase.database();
 
 // ===== Nézetváltás =====
 function mutat(mit) {
-    document.getElementById("kezdo").style.display = "none";
-    document.getElementById("bongeszes").style.display = "none";
-    document.getElementById("feltoltes").style.display = "none";
-
-    document.getElementById(mit).style.display = "block";
-
-    if (mit === "bongeszes") {
-        feltoltSzurok();
-        listazas();
-    }
+    ["kezdo","bongeszes","uj-feltoltes"].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.style.display = (id===mit?"block":"none");
+    });
+    if(mit==="bongeszes"){ feltoltSzurok(); listazas(); }
 }
+function vissza(){ mutat("kezdo"); }
+    
 
 function vissza() {
     document.getElementById("bongeszes").style.display = "none";

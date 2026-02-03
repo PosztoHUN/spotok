@@ -12,26 +12,82 @@
 <body>
     <div class="container">
         <h1>Járműspotolás</h1>
+        <div>
+                <!-- Kezdő választó -->
+                <div id="kezdo" class="choice-grid">
+                    <div class="choice-card" onclick="mutat('bongeszes')">
+                        <h2>📷 Meglévő spotok böngészése</h2>
+                        <p>Korábbi feltöltések keresése ország, város vagy eszköz szerint</p>
+                    </div>
+                    <div class="choice-card" onclick="mutat('feltoltes')">
+                        <h2>➕ Új spot feltöltése</h2>
+                        <p>Új járműspot hozzáadása az adatbázishoz</p>
+                    </div>
+                </div>
 
-        <!-- Kezdő választó -->
-        <div id="kezdo" class="choice-grid">
-            <div class="choice-card" onclick="mutat('bongeszes')">
-                <h2>📷 Meglévő spotok böngészése</h2>
-                <p>Korábbi feltöltések keresése ország, város vagy eszköz szerint</p>
-            </div>
-            <div class="choice-card" onclick="mutat('feltoltes')">
-                <h2>➕ Új spot feltöltése</h2>
-                <p>Új járműspot hozzáadása az adatbázishoz</p>
-            </div>
-        </div>
+                <!-- Böngészés -->
+                <div id="bongeszes" class="rejtett">
+                    <button class="vissza" onclick="vissza()">← Vissza</button>
+                    <div class="card">
+                        <h2>Keresés</h2>
+                        <div id="feltoltes">
+                            <h2>Új Spot feltöltése</h2>
 
-        <!-- Böngészés -->
-        <div id="bongeszes" class="rejtett">
-            <button class="vissza" onclick="vissza()">← Vissza</button>
-            <div class="card">
-                <h2>Keresés</h2>
-                <div id="feltoltes">
-                    <h2>Új Spot feltöltése</h2>
+                            <label>Ország</label>
+                            <input type="text" id="orszag">
+
+                            <label>Város</label>
+                            <input type="text" id="varos">
+
+                            <label>Eszköz</label>
+                            <input type="text" id="eszkoz">
+
+                            <label>Vonalak (pl. 4,6,47)</label>
+                            <input type="text" id="vonalak">
+
+                            <label>Helyszín</label>
+                            <input type="text" id="helyszin">
+
+                            <label>Leírás</label>
+                            <textarea id="leiras"></textarea>
+
+                            <label>Évszak</label>
+                            <select id="evszak">
+                                <option value="">Válassz</option>
+                                <option value="Tavasz">Tavasz</option>
+                                <option value="Nyár">Nyár</option>
+                                <option value="Ősz">Ősz</option>
+                                <option value="Tél">Tél</option>
+                            </select>
+
+                            <label>Időpont</label>
+                            <input type="time" id="idopont">
+
+                            <button onclick="spotMentese()">Mentés</button>
+                        <div class="filters">
+                            <select id="szuroOrszag">
+                                <option value="">Összes ország</option>
+                            </select>
+                            <select id="szuroVaros">
+                                <option value="">Összes város</option>
+                            </select>
+                            <select id="szuroEszkoz">
+                                <option value="">Összes eszköz</option>
+                            </select>
+                            <select id="szuroVonal">
+                                <option value="">Összes vonal</option>
+                            </select>
+                            <button onclick="listazas()">Szűrés</button>
+                        </div>
+                    </div>
+                    <div id="lista" class="spot-lista"></div>
+                </div>
+            
+            <!-- Feltöltés -->
+            <div id="uj-feltoltes" class="rejtett">
+                <button class="vissza" onclick="vissza()">← Vissza</button>
+                <div class="card">
+                    <h2>Új spot feltöltése</h2>
 
                     <label>Ország</label>
                     <input type="text" id="orszag">
@@ -64,37 +120,7 @@
                     <input type="time" id="idopont">
 
                     <button onclick="spotMentese()">Mentés</button>
-                <div class="filters">
-                    <select id="szuroOrszag">
-                        <option value="">Összes ország</option>
-                    </select>
-                    <select id="szuroVaros">
-                        <option value="">Összes város</option>
-                    </select>
-                    <select id="szuroEszkoz">
-                        <option value="">Összes eszköz</option>
-                    </select>
-                    <select id="szuroVonal">
-                        <option value="">Összes vonal</option>
-                    </select>
-                    <button onclick="listazas()">Szűrés</button>
                 </div>
-            </div>
-            <div id="lista" class="spot-lista"></div>
-        </div>
-
-        <!-- Feltöltés -->
-        <div id="feltoltes" class="rejtett">
-            <button class="vissza" onclick="vissza()">← Vissza</button>
-            <div class="card">
-                <h2>Új spot feltöltése</h2>
-                <input id="orszag" placeholder="Ország">
-                <input id="varos" placeholder="Város">
-                <input id="eszkoz" placeholder="Közlekedési eszköz">
-                <input id="vonalak" placeholder="Vonal(ak) (ha több, vesszővel elválasztva)">
-                <input id="helyszin" placeholder="Pontos helyszín">
-                <input id="leiras" placeholder="Leírás">
-                <button onclick="spotMentese()">Mentés</button>
             </div>
         </div>
     </div>
