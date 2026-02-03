@@ -210,3 +210,4 @@ document.getElementById("szuroVaros").addEventListener("change", feltoltSzurok);
 document.getElementById("szuroEszkoz").addEventListener("change", feltoltSzurok);
 
 
+
