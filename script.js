@@ -25,10 +25,11 @@ function mutat(mit) {
         const el = document.getElementById(id);
         if(el) el.style.display = (id===mit?"block":"none");
     });
-    if(mit==="bongeszes"){ feltoltSzurok(); listazas(); }
 }
-function vissza(){ mutat("kezdo"); }
-    
+
+function vissza() {
+    mutat("kezdo");
+}
 
 function vissza() {
     document.getElementById("bongeszes").style.display = "none";
