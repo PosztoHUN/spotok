@@ -88,8 +88,8 @@ input {
 
 .feltoltes-grid .evszakok {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    flex-direction: row; /* sorba rendezi a checkboxokat */
+    gap: 15px; /* távolság a checkboxok között */
     margin-top: 5px;
 }
 
