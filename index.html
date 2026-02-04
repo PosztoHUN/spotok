@@ -1,79 +1,80 @@
 <!DOCTYPE html>
 <html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotok</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h1>Járműspotolás</h1>
-        <div>
-                <!-- Kezdő választó -->
-                <div id="kezdo" class="choice-grid">
-                    <div class="choice-card" onclick="mutat('bongeszes')">
-                        <h2>📷 Meglévő spotok böngészése</h2>
-                        <p>Korábbi feltöltések keresése ország, város vagy eszköz szerint</p>
-                    </div>
-                    <div class="choice-card" onclick="mutat('uj-feltoltes')">
-                        <h2>➕ Új spot feltöltése</h2>
-                        <p>Új járműspot hozzáadása az adatbázishoz</p>
-                    </div>
-                </div>
-                <!-- Böngészés -->
-                <div id="bongeszes" class="rejtett">
-                    <button class="vissza" onclick="vissza()">← Vissza</button>
-                    <div class="card">
-                        <h2>Keresés</h2>
-                        <div class="filters">
-                            <select id="szuroOrszag">
-                                <option value="">Összes ország</option>
-                            </select>
-                            <select id="szuroVaros">
-                                <option value="">Összes város</option>
-                            </select>
-                            <select id="szuroEszkoz">
-                                <option value="">Összes eszköz</option>
-                            </select>
-                            <select id="szuroVonal">
-                                <option value="">Összes vonal</option>
-                            </select>
-                            <button onclick="listazas()">Szűrés</button>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Spotok</title>
+        <link rel="stylesheet" href="style.css">
+        <!-- Firebase SDK -->
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Járműspotolás</h1>
+            <div>
+                    <!-- Kezdő választó -->
+                    <div id="kezdo" class="choice-grid">
+                        <div class="choice-card" onclick="mutat('bongeszes')">
+                            <h2>📷 Meglévő spotok böngészése</h2>
+                            <p>Korábbi feltöltések keresése ország, város vagy eszköz szerint</p>
+                        </div>
+                        <div class="choice-card" onclick="mutat('uj-feltoltes')">
+                            <h2>➕ Új spot feltöltése</h2>
+                            <p>Új járműspot hozzáadása az adatbázishoz</p>
                         </div>
                     </div>
-                    <div id="lista" class="spot-lista"></div>
-                </div>
-
-                <!-- Feltöltés -->
-                <div id="uj-feltoltes" class="rejtett">
-                    <button class="vissza" onclick="vissza()">← Vissza</button>
-                    <div class="card feltoltes-grid">
-                        <h2>Új spot feltöltése</h2>
-
-                        <label>Ország <input type="text" id="feltolt_orszag"></label>
-                        <label>Város <input type="text" id="feltolt_varos"></label>
-                        <label>Eszköz <input type="text" id="feltolt_eszkoz"></label>
-                        <label>Vonalak (több esetén vesszővel elválasztva) <input type="text" id="feltolt_vonalak"></label>
-                        <label>Helyszín <input type="text" id="feltolt_helyszin"></label>
-                        <label>Leírás <input type="text" id="feltolt_leiras"></label>
-                        <div class="evszakok">
-                            <label><input type="checkbox" value="Tavasz" class="feltolt_evszak"> Tavasz</label>
-                            <label><input type="checkbox" value="Nyár" class="feltolt_evszak"> Nyár</label>
-                            <label><input type="checkbox" value="Ősz" class="feltolt_evszak"> Ősz</label>
-                            <label><input type="checkbox" value="Tél" class="feltolt_evszak"> Tél</label>
+                    <!-- Böngészés -->
+                    <div id="bongeszes" class="rejtett">
+                        <button class="vissza" onclick="vissza()">← Vissza</button>
+                        <div class="card">
+                            <h2>Keresés</h2>
+                            <div class="filters">
+                                <select id="szuroOrszag">
+                                    <option value="">Összes ország</option>
+                                </select>
+                                <select id="szuroVaros">
+                                    <option value="">Összes város</option>
+                                </select>
+                                <select id="szuroEszkoz">
+                                    <option value="">Összes eszköz</option>
+                                </select>
+                                <select id="szuroVonal">
+                                    <option value="">Összes vonal</option>
+                                </select>
+                                <button onclick="listazas()">Szűrés</button>
+                            </div>
                         </div>
-                        <label>Időpont <input type="time" id="feltolt_idopont"></label>
-                        <button onclick="spotMentese(true)">Mentés</button>
+                        <div id="lista" class="spot-lista"></div>
                     </div>
-                </div>
+    
+                    <!-- Feltöltés -->
+                    <div id="uj-feltoltes" class="rejtett">
+                        <button class="vissza" onclick="vissza()">← Vissza</button>
+                        <div class="card feltoltes-grid">
+                            <h2>Új spot feltöltése</h2>
+    
+                            <label>Ország <input type="text" id="feltolt_orszag"></label>
+                            <label>Város <input type="text" id="feltolt_varos"></label>
+                            <label>Eszköz <input type="text" id="feltolt_eszkoz"></label>
+                            <label>Vonalak (több esetén vesszővel elválasztva) <input type="text" id="feltolt_vonalak"></label>
+                            <label>Helyszín <input type="text" id="feltolt_helyszin"></label>
+                            <label>Leírás <input type="text" id="feltolt_leiras"></label>
+                            <div class="evszakok">
+                                <label><input type="checkbox" value="Tavasz" class="feltolt_evszak"> Tavasz</label>
+                                <label><input type="checkbox" value="Nyár" class="feltolt_evszak"> Nyár</label>
+                                <label><input type="checkbox" value="Ősz" class="feltolt_evszak"> Ősz</label>
+                                <label><input type="checkbox" value="Tél" class="feltolt_evszak"> Tél</label>
+                            </div>
+                            <label>Időpont <input type="time" id="feltolt_idopont"></label>
+                            <button onclick="spotMentese(true)">Mentés</button>
+                        </div>
+                    </div>
+            </div>
         </div>
-    </div>
-    <script src="script.js"></script>
-</body>
+        <script src="script.js?v=fix118"></script>
+    </body>
 </html>
 
     
+
