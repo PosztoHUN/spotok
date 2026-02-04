@@ -164,7 +164,12 @@ async function listazas() {
     const szurt = spotok.filter(s => {
         if (o && s.orszag !== o) return false;
         if (v && s.varos !== v) return false;
-        if (e && s.eszkoz !== e) return false;
+        // if (e && s.eszkoz !== e) return false;
+        if (eszkozSzuro) {
+            const tombE = s.eszkoz
+                ? s.ezkoz.split(",").map(x => x.trim())
+                : [];
+            if (!tombE.includes(vonalSzuro)) return false;
         if (vonalSzuro) {
             const tomb = s.vonalak
                 ? s.vonalak.split(",").map(x => x.trim())
@@ -289,3 +294,4 @@ function veglegesTorles(id) {
 // ===== Eseményfigyelők, hogy a vonal szűrő frissüljön =====
 // document.getElementById("szuroVaros").addEventListener("change", feltoltSzurok);
 // document.getElementById("szuroEszkoz").addEventListener("change", feltoltSzurok);
+
